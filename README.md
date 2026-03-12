@@ -418,3 +418,114 @@ database table create
 ```
 
 ---
+
+## Step 2 — Serializer Banana
+
+**Context:**
+Ab model database me ban gaya. Next step me hume **model data ko API response (JSON)** me convert karna hota hai.
+
+Ye kaam **Django REST Framework** me **Serializer** karta hai.
+
+Simple words me:
+
+```text
+Model Object  ↔  Serializer  ↔  JSON
+```
+
+---
+
+## 1️⃣ `serializers.py` file create karo
+
+App folder me new file banao:
+
+```text
+api/serializers.py
+```
+
+---
+
+## 2️⃣ Serializer define karo
+
+Example:
+
+```python
+from rest_framework import serializers
+from .models import Product
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Product
+        fields = '__all__'
+```
+
+---
+
+## 3️⃣ Code samjho (short)
+
+### `ModelSerializer`
+
+Ye automatically:
+
+* model fields read karta hai
+* JSON conversion karta hai
+* validation handle karta hai
+
+---
+
+### `Meta class`
+
+```python
+class Meta:
+    model = Product
+    fields = '__all__'
+```
+
+Meaning:
+
+| Line   | Meaning                       |
+| ------ | ----------------------------- |
+| model  | kaunsa model use hoga         |
+| fields | kaunse fields API me dikhenge |
+
+Example response:
+
+```json
+{
+  "id": 1,
+  "name": "Laptop",
+  "price": 50000
+}
+```
+
+---
+
+## Result
+
+Ab system ready hai:
+
+```text
+Database Model
+      ↓
+Serializer
+      ↓
+JSON data
+```
+
+Lekin abhi **API endpoint nahi bana**.
+
+---
+
+✅ **Summary**
+
+```text
+serializers.py create
+        ↓
+ModelSerializer define
+        ↓
+Model data → JSON conversion ready
+```
+
+---
+
