@@ -323,4 +323,98 @@ Add 'rest_framework' in settings
 Project ready for API development
 ```
 
+## Step 1 — Model Create Karna
 
+**Context:**
+DRF me bhi models exactly waise hi bante hain jaise **Django** me bante hain. DRF models ko change nahi karta; woh sirf API layer add karta hai.
+
+---
+
+### 1️⃣ `models.py` open karo
+
+Path:
+
+```
+api/models.py
+```
+
+---
+
+### 2️⃣ Model define karo
+
+Example:
+
+```python
+from django.db import models
+
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.IntegerField()
+```
+
+---
+
+### 3️⃣ Migrations create karo
+
+Command run karo:
+
+```bash
+python manage.py makemigrations
+```
+
+Ye Django ko batata hai ki **database schema change hua hai**.
+
+---
+
+### 4️⃣ Database migrate karo
+
+```bash
+python manage.py migrate
+```
+
+Isse database me table create ho jayega.
+
+---
+
+### 5️⃣ Optional (Admin me show karna)
+
+`api/admin.py`
+
+```python
+from django.contrib import admin
+from .models import Product
+
+admin.site.register(Product)
+```
+
+Ab admin panel me Product model dikhega.
+
+---
+
+### Result
+
+Database me table create ho jayega:
+
+```
+Product
+-------
+id
+name
+price
+```
+
+---
+
+✅ **Summary**
+
+```
+models.py → model define
+        ↓
+makemigrations
+        ↓
+migrate
+        ↓
+database table create
+```
+
+---
