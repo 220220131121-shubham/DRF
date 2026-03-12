@@ -841,3 +841,199 @@ Model instance
 | Serializer | JSON ↔ Python conversion    |
 
 ---
+
+# 1️⃣ Serialization (Model → JSON)
+
+**Definition:**
+Database object ko API response (JSON) me convert karna.
+
+### Step-by-step flow
+
+```text
+Database
+   ↓
+Model instance
+   ↓
+Serializer
+   ↓
+JSON response
+```
+
+### Example
+
+Model object:
+
+```python
+product = Product(id=1, name="Laptop", price=50000)
+```
+
+Serializer:
+
+```python
+serializer = ProductSerializer(product)
+```
+
+Data access:
+
+```python
+serializer.data
+```
+
+Output:
+
+```json
+{
+ "id": 1,
+ "name": "Laptop",
+ "price": 50000
+}
+```
+
+### Internally kya hota hai
+
+1. Serializer model instance read karta hai
+2. Har field ko process karta hai
+3. Python primitives me convert karta hai
+4. JSON response generate hota hai
+
+Primitive types:
+
+```
+dict
+list
+string
+int
+float
+boolean
+```
+
+---
+
+# 2️⃣ Deserialization (JSON → Model)
+
+**Definition:**
+Client se aane wale JSON ko validate karke Python object banana.
+
+### Flow
+
+```text
+JSON request
+     ↓
+Serializer
+     ↓
+Validation
+     ↓
+Python dict
+     ↓
+Model instance
+```
+
+### Example JSON request
+
+```json
+{
+ "name": "Phone",
+ "price": 20000
+}
+```
+
+Serializer use:
+
+```python
+serializer = ProductSerializer(data=request.data)
+```
+
+Validation:
+
+```python
+serializer.is_valid()
+```
+
+Valid hone par:
+
+```python
+serializer.validated_data
+```
+
+Output:
+
+```python
+{
+ "name": "Phone",
+ "price": 20000
+}
+```
+
+Save model:
+
+```python
+serializer.save()
+```
+
+Database me record create ho jayega.
+
+---
+
+# Important Serializer Properties
+
+| Property                    | Meaning            |
+| --------------------------- | ------------------ |
+| `serializer.data`           | serialized output  |
+| `serializer.is_valid()`     | validation check   |
+| `serializer.validated_data` | cleaned input data |
+| `serializer.errors`         | validation errors  |
+
+---
+
+# Full Request Lifecycle
+
+Typical API flow:
+
+```text
+Client sends JSON
+        ↓
+APIView receives request
+        ↓
+Serializer(data=request.data)
+        ↓
+serializer.is_valid()
+        ↓
+serializer.save()
+        ↓
+Database record created
+        ↓
+Serializer(model_instance)
+        ↓
+JSON response returned
+```
+
+---
+
+# Key Insight
+
+Serializer actually **2 roles perform karta hai**:
+
+```
+1. Data Transformation
+2. Data Validation
+```
+
+Isliye DRF me serializer **Forms ka replacement nahi**,
+balki **API data layer** hai.
+
+---
+
+✅ **Short Summary**
+
+```
+Serialization   → Model → JSON
+Deserialization → JSON → Model
+```
+
+Serializer pipeline:
+
+```
+JSON ↔ Serializer ↔ Model
+```
+
+---
