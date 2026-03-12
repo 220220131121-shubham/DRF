@@ -129,4 +129,74 @@ Frontend / Mobile App
       Database
 ```
 
-If you want, I can also give **“DRF ke 8 core concepts (jo industry me most important hote hain)”** — ye actually DRF ka real learning roadmap hota hai.
+ Practically **DRF project = Django project + DRF library**.
+
+---
+
+### Fact
+
+**Django REST Framework** ek **extension library** hai jo **Django** ke upar run karti hai.
+
+Iska matlab:
+
+```
+Django (core framework)
+        +
+Django REST Framework (API tools)
+        =
+Django project with APIs
+```
+
+---
+
+### Project Creation Reality
+
+DRF ke liye **alag project type nahi hota**.
+
+Aap same Django commands use karte ho:
+
+```bash
+django-admin startproject projectname
+python manage.py startapp api
+```
+
+Fir DRF install karte ho:
+
+```bash
+pip install djangorestframework
+```
+
+Aur `settings.py` me add kar dete ho:
+
+```python
+'rest_framework'
+```
+
+Bas.
+
+---
+
+### Structural Difference
+
+Difference mainly **code layer** me hota hai.
+
+| Django Web Project | DRF API Project     |
+| ------------------ | ------------------- |
+| Templates          | JSON responses      |
+| Forms              | Serializers         |
+| Views              | APIViews / ViewSets |
+
+Lekin **project structure same Django ka hi rehta hai**.
+
+---
+
+### One-line Mental Model
+
+```
+DRF is not a framework replacing Django.
+DRF is a toolkit for building APIs inside Django.
+```
+
+---
+
+
