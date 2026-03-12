@@ -198,5 +198,129 @@ DRF is a toolkit for building APIs inside Django.
 ```
 
 ---
+## DRF Project Setup (Short Steps)
+
+**Concept:**
+DRF project actually **Django project + Django REST Framework library** hota hai.
+
+---
+
+### 1️⃣ Virtual Environment (optional but recommended)
+
+```bash
+python -m venv venv
+```
+
+Activate:
+
+```bash
+venv\Scripts\activate   # Windows
+```
+
+---
+
+### 2️⃣ Django Install
+
+```bash
+pip install django
+```
+
+---
+
+### 3️⃣ Django Project Create
+
+```bash
+django-admin startproject projectname
+cd projectname
+```
+
+Project structure:
+
+```
+projectname/
+    manage.py
+    projectname/
+        settings.py
+        urls.py
+```
+
+---
+
+### 4️⃣ App Create
+
+```bash
+python manage.py startapp api
+```
+
+---
+
+### 5️⃣ DRF Install
+
+```bash
+pip install djangorestframework
+```
+
+---
+
+### 6️⃣ `settings.py` me add karo
+
+```python
+INSTALLED_APPS = [
+    'rest_framework',
+    'api',
+]
+```
+
+---
+
+### 7️⃣ Database migrate karo
+
+```bash
+python manage.py migrate
+```
+
+---
+
+### 8️⃣ Server run karo
+
+```bash
+python manage.py runserver
+```
+
+---
+
+## Final Structure
+
+```
+projectname/
+│
+├── projectname/
+│   ├── settings.py
+│   ├── urls.py
+│
+├── api/
+│   ├── models.py
+│   ├── views.py
+│   ├── serializers.py
+│   ├── urls.py
+│
+└── manage.py
+```
+
+---
+
+✅ **Summary**
+
+```
+Create Django project
+        ↓
+Create app
+        ↓
+Install DRF
+        ↓
+Add 'rest_framework' in settings
+        ↓
+Project ready for API development
+```
 
 
