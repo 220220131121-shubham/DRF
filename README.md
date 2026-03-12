@@ -1037,3 +1037,194 @@ JSON ↔ Serializer ↔ Model
 ```
 
 ---
+
+# 1️⃣ `.initial_data`
+
+**Definition:**
+Client se aaya **raw input data**.
+
+Yeh tab available hota hai jab serializer ko `data=` parameter diya jata hai.
+
+### Example
+
+Client request JSON:
+
+```json
+{
+ "name": "Phone",
+ "price": 20000
+}
+```
+
+Serializer:
+
+```python
+serializer = ProductSerializer(data=request.data)
+```
+
+Internal state:
+
+```python
+serializer.initial_data
+```
+
+Output:
+
+```python
+{
+ "name": "Phone",
+ "price": 20000
+}
+```
+
+**Important:**
+
+```text
+initial_data = raw input
+(no validation yet)
+```
+
+---
+
+# 2️⃣ `.validated_data`
+
+**Definition:**
+Validation pass hone ke baad cleaned data.
+
+### Step
+
+```python
+serializer.is_valid()
+```
+
+Uske baad:
+
+```python
+serializer.validated_data
+```
+
+Output:
+
+```python
+{
+ "name": "Phone",
+ "price": 20000
+}
+```
+
+Difference:
+
+| Stage          | Data                     |
+| -------------- | ------------------------ |
+| initial_data   | raw client data          |
+| validated_data | validated & cleaned data |
+
+Example:
+
+Agar client bheje:
+
+```json
+{
+ "name": "Phone",
+ "price": -10
+}
+```
+
+Validation fail ho sakta hai.
+
+To:
+
+```python
+serializer.errors
+```
+
+me error milega.
+
+---
+
+# 3️⃣ `.data`
+
+**Definition:**
+Serialized output jo **API response me bheja jata hai**.
+
+### Example
+
+```python
+product = Product.objects.first()
+serializer = ProductSerializer(product)
+serializer.data
+```
+
+Output:
+
+```json
+{
+ "id": 1,
+ "name": "Laptop",
+ "price": 50000
+}
+```
+
+Meaning:
+
+```text
+Model instance → serializer.data → JSON response
+```
+
+---
+
+# Comparison Table
+
+| Attribute         | Source            | Stage               |
+| ----------------- | ----------------- | ------------------- |
+| `.initial_data`   | client request    | before validation   |
+| `.validated_data` | serializer        | after validation    |
+| `.data`           | serializer output | response generation |
+
+---
+
+# Typical API Flow
+
+```text
+Client JSON
+    ↓
+serializer = Serializer(data=request.data)
+    ↓
+.initial_data
+    ↓
+serializer.is_valid()
+    ↓
+.validated_data
+    ↓
+serializer.save()
+    ↓
+Model instance
+    ↓
+serializer(instance)
+    ↓
+.data
+    ↓
+JSON response
+```
+
+---
+
+# Key Rule
+
+```text
+.initial_data → read raw input
+.validated_data → use after validation
+.data → response output
+```
+
+---
+
+✅ **Short Summary**
+
+```text
+initial_data   = raw request data
+validated_data = validated request data
+data           = serialized response data
+```
+
+---
